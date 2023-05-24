@@ -15,6 +15,13 @@ model Customer {
   id        String   @id @unique @default(uuid())
   email     String   @unique
   password  String
+  activationCode Int?      @default(dbgenerated("FLOOR(RANDOM() * 9000) + 1000"))
+  role      Role     @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  USER
+  ADMIN
 }
