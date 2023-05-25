@@ -23,7 +23,7 @@ export class CustomerController {
   @Roles('ADMIN')
   @UseGuards(JwtAuthGuard, RolesGuard)
     async createCustomer(@Body() customerDto: CustomerDTO): Promise<CustomerDTO> {
-    return this.customerService.createCustomer(customerDto);
+    return this.customerService.createCustomer(customerDto.email, customerDto.password);
   }
 
   @Put(':id')
