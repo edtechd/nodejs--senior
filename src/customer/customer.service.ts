@@ -25,8 +25,8 @@ export class CustomerService {
     return this.prisma.customer.findUnique({ where: { email } });
   }
 
-  async createCustomer(customerDto: CustomerDTO): Promise<CustomerDTO> {
-    return this.prisma.customer.create({ data: customerDto });
+  async createCustomer(email: string, password: string): Promise<CustomerDTO> {
+    return this.prisma.customer.create({ data: { email, password } });
   }
 
   async updateCustomer(

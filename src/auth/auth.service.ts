@@ -1,5 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CustomerDTO } from '../customer/dto/customer.dto';
+import { AuthDTO } from './dto/auth.dto';
 import { Role } from '.prisma/client';
 import { genSalt, hash, compare } from 'bcryptjs';
 import { WRONG_USER_ERROR } from './auth.constants';
@@ -13,10 +14,9 @@ export class AuthService {
 		private readonly customerService: CustomerService
 	) { }
 
-	async createUser(dto: CustomerDTO) {
+	async createUser(dto: AuthDTO) {
 		const salt = await genSalt(10);
-		dto.password = await hash(dto.password, salt)
-		await this.customerService.createCustomer(dto);
+		await this.customerService.createCustomer( dto.email, await hash(dto.password, salt));
 	}
 
 	async validateUser(email: string, password: string): Promise<CustomerDTO> {
